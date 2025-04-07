@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 class QuestionForm extends StatelessWidget {
   const QuestionForm({super.key});
@@ -18,15 +21,11 @@ class QuestionForm extends StatelessWidget {
               border: OutlineInputBorder(),
             ),
           ),
-          const SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () {
-              // Handle the button press
-            },
-            child: const Text('Ask'),
-          ),
+        
         ],
       ),
     );
   }
+
+
 }
