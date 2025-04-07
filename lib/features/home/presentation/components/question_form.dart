@@ -17,8 +17,10 @@ class QuestionForm extends StatelessWidget {
           const SizedBox(height: 10),
           TextField(
             decoration: InputDecoration(
+              helperText: 'Enter your question',
               labelText: 'Enter a question',
               border: OutlineInputBorder(),
+              
             ),
           ),
         
