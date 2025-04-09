@@ -15,6 +15,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   String answer = "";
+  TextEditingController questionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
           children: [
             const Text('Decisions Left ##', style: TextStyle(fontSize: 24)),
             const SizedBox(height: 20),
-            QuestionForm(),
+            QuestionForm(questionController: questionController),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
@@ -63,32 +64,43 @@ class _HomeViewState extends State<HomeView> {
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 10),
-            FutureBuilder(
-              future: IFirebaseService().userAuthStatus().then((value) {
-                return value.fold(
-                  (l) {
-                    // user is not logged in
-                    return null;
-                  },
-                  (r) {
-                    // user is logged in
-                    return r;
-                  },
-                );
-              }), // Add your FutureBuilder here to display user data
-              builder: (_, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  return Text('User ID: ${snapshot.data?.uid}');
-                } else {
-                  return const Text('No user data available');
-                }
-              },
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              child: FutureBuilder(
+                future: IFirebaseService().userAuthStatus().then((value) {
+                  return value.fold(
+                    (l) {
+                      // user is not logged in
+                      return null;
+                    },
+                    (r) {
+                      // user is logged in
+                      return r;
+                    },
+                  );
+                }), // Add your FutureBuilder here to display user data
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (snapshot.hasData) {
+                    return Text('User ID: ${snapshot.data?.uid}');
+                  } else {
+                    return const Text('No user data available');
+                  }
+                },
+              ),
             ),
-            ShowQuestionAndAnswer(answer: answer),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              child: ShowQuestionAndAnswer(
+                answer: answer,
+                question: questionController.text,
+              ),
+            ),
           ],
         ),
       ),

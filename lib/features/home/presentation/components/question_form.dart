@@ -1,10 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 
 class QuestionForm extends StatelessWidget {
-  const QuestionForm({super.key});
+  const QuestionForm({super.key, required this.questionController});
+
+  final TextEditingController questionController;
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +15,15 @@ class QuestionForm extends StatelessWidget {
 
           const SizedBox(height: 10),
           TextField(
+            controller: questionController,
             decoration: InputDecoration(
               helperText: 'Enter your question',
               labelText: 'Enter a question',
               border: OutlineInputBorder(),
-              
             ),
           ),
-        
         ],
       ),
     );
   }
-
-
 }
